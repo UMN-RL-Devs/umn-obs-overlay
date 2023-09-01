@@ -1,0 +1,4 @@
+{
+    "SOS_PORT": 49122,
+    "WEBSOCKET_SOS": "ws://localhost:49122"
+}
