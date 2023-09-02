@@ -8,6 +8,9 @@ import {
 import { GameContext } from "./models/GameContext/GameContext";
 import { Player } from "./models/GameContext/Player";
 import { USPlayers } from "./models/Game/UpdateStateEvent/USPlayers";
+import { TeamPlayerGroup } from "./components/TeamPlayerGroup/TeamPlayerGroup";
+import { GameService } from "./services/gameService";
+import GeneralConstants from "./constants/constants.json";
 
 const App = () => {
   const [gameInfo, setGameInfo] = useState<GameContext>(DEFAULT_GAME_CONTEXT);
@@ -47,7 +50,20 @@ const App = () => {
 
   return (
     <GameStoreContext.Provider value={gameInfo}>
-      <div>Overlay components here</div>
+      <TeamPlayerGroup
+        players={GameService.getBlueTeam(gameInfo.players)}
+        isLeft={true}
+        primaryColor={GeneralConstants.BLUE_TEAM_PRIMARY}
+        secondaryColor={GeneralConstants.BLUE_TEAM_SECONDARY}
+        currentTarget={gameInfo.target}
+      />
+      <TeamPlayerGroup
+        players={GameService.getOrangeTeam(gameInfo.players)}
+        isLeft={false}
+        primaryColor={GeneralConstants.ORANGE_TEAM_PRIMARY}
+        secondaryColor={GeneralConstants.ORANGE_TEAM_SECONDARY}
+        currentTarget={gameInfo.target}
+      />
     </GameStoreContext.Provider>
   );
 };

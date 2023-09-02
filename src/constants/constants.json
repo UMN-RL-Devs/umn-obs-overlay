@@ -1,4 +1,9 @@
 {
     "SOS_PORT": 49122,
-    "WEBSOCKET_SOS": "ws://localhost:49122"
+    "WEBSOCKET_SOS": "ws://localhost:49122",
+    "BLUE_TEAM_PRIMARY": "#3B63E0",
+    "BLUE_TEAM_SECONDARY": "#FFFFFF",
+    "ORANGE_TEAM_PRIMARY": "#D8723E",
+    "ORANGE_TEAM_SECONDARY": "#000000"
+    
 }
