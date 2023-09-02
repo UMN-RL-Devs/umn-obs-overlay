@@ -25,3 +25,11 @@ Install all the necessary dependencies.
 ### `npm start`
 
 Start running the application locally.
+
+## Dev Notes
+
+Commands run during setup
+<br/>
+_Windows - Command Prompt_
+`set BAKKESMODSDK=[PATH_TO_SDK]`
+`set (BAKKESMODSDK)=[PATH_TO_SDK]`
