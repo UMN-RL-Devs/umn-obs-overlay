@@ -1,8 +1,8 @@
-import { createContext, useState } from "react";
+import { createContext } from "react";
 import { OverlayContext } from "../models/OverlayContext/OverlayContext";
 import GeneralConstants from "../constants/constants.json";
 
-const DEFAULT_OVERLAY_CONTEXT: OverlayContext = {
+export const DEFAULT_OVERLAY_CONTEXT: OverlayContext = {
   blue: {
     abbreviation: "",
     avatar: "",
@@ -17,16 +17,7 @@ const DEFAULT_OVERLAY_CONTEXT: OverlayContext = {
   },
 };
 
-const CreateOverlayInfoStateContext = () => {
-  const [overlayInfoContext, setOverlayInfoContext] = useState<OverlayContext>(
-    DEFAULT_OVERLAY_CONTEXT
-  );
-  return {
-    overlayInfo: overlayInfoContext,
-    setOverlayInfo: setOverlayInfoContext,
-  };
-};
-
-export const OverlayInfoContext = createContext(
-  CreateOverlayInfoStateContext()
-);
+export const OverlayInfoContext = createContext({
+  overlayInfo: DEFAULT_OVERLAY_CONTEXT,
+  setOverlayInfo: (newOverlayInfo: OverlayContext) => {},
+});

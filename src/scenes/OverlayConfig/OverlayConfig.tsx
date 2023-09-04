@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { OverlayInfoContext } from "../../contexts/OverlayInfoContext";
 import {
   OverlayConfigHeading,
@@ -11,6 +12,7 @@ import {
 
 export const OverlayConfig = () => {
   const { overlayInfo, setOverlayInfo } = useContext(OverlayInfoContext);
+  const navigate = useNavigate();
 
   const handleURLChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -72,11 +74,21 @@ export const OverlayConfig = () => {
         });
   };
 
+  // True = Bad | False = Good
+  const validateInputs = (): boolean => {
+    return (
+      overlayInfo.blue.abbreviation === "" ||
+      overlayInfo.orange.abbreviation === "" ||
+      overlayInfo.blue.avatar === "" ||
+      overlayInfo.orange.avatar === ""
+    );
+  };
+
   return (
     <>
       <OverlayConfigHeading>UMN RL Overlay</OverlayConfigHeading>
       <OverlayConfigWrapper>
-        <>
+        <div style={{ marginRight: "16px" }}>
           <OverlayConfigSubheading>Blue Team</OverlayConfigSubheading>
           <OverlayConfigLabel>Abbreviation:</OverlayConfigLabel>
           <OverlayConfigTextInput
@@ -126,8 +138,16 @@ export const OverlayConfig = () => {
           />
           <br />
           <br />
-        </>
-        <>
+          <OverlayConfigSubmit
+            disabled={validateInputs()}
+            onClick={() => {
+              navigate("/overlay");
+            }}
+          >
+            Submit
+          </OverlayConfigSubmit>
+        </div>
+        <div style={{ marginLeft: "16px" }}>
           <OverlayConfigSubheading>Orange Team</OverlayConfigSubheading>
           <OverlayConfigLabel>Abbreviation:</OverlayConfigLabel>
           <OverlayConfigTextInput
@@ -177,9 +197,8 @@ export const OverlayConfig = () => {
           />
           <br />
           <br />
-        </>
+        </div>
       </OverlayConfigWrapper>
-      <OverlayConfigSubmit />
     </>
   );
 };
