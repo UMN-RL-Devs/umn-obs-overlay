@@ -1,0 +1,60 @@
+{
+    "PlayerBoostBar": {
+        "height": 37,
+        "width": 396,
+        "boostBarHeight": 9,
+        "fontSize": 30,
+        "topOffset": 20,
+        "sideOffset": 20,
+        "bottomPadding": 16,
+        "totalHeight": 46
+    },
+    "PlayerBoostMeter": {
+        "innerCircle": {
+            "logoHeight": 112,
+            "logoWidth": 200,
+            "fontSize": 70,
+            "radius": 120
+        },
+        "boostRing": {
+            "thickness": 10
+        }
+    },
+    "PlayerStatCard": {
+        "height": 155,
+        "width": 158,
+        "playerName": {
+            "fontSize": 30
+        },
+        "secondaryBar": {
+            "fontSize": 16,
+            "height": 25
+        },
+        "stats": {
+            "statNameSize": 21,
+            "statValueSize": 44,
+            "horizontalPadding": 1
+        }
+    },
+    "Scorebug": {
+        "topWidth": 840,
+        "bottomWidth": 1,
+        "height": 76,
+        "team": {
+            "height": 70,
+            "width": 228,
+            "offset": 1,
+            "fontSize": 68,
+            "logoHeight": 52,
+            "logoWidth": 92
+        },
+        "timer": {
+            "fontSize": 54
+        },
+        "seriesIndicator": {
+            "height": 15,
+            "width": 30,
+            "offset": 1
+        }
+    }
+}

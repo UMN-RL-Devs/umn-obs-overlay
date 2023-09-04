@@ -1,54 +1,60 @@
-import React, { useEffect, useState } from "react";
-import { WebsocketService } from "./services/websocketService";
-import { UpdateState } from "./models/Game/UpdateStateEvent/UpdateState";
+import { useEffect, useState } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Overlay } from "./scenes/Overlay/Overlay";
 import {
-  DEFAULT_GAME_CONTEXT,
-  GameStoreContext,
-} from "./contexts/GameStoreContext";
-import { GameContext } from "./models/GameContext/GameContext";
-import { Player } from "./models/GameContext/Player";
-import { USPlayers } from "./models/Game/UpdateStateEvent/USPlayers";
+  DEFAULT_OVERLAY_CONTEXT,
+  OverlayInfoContext,
+} from "./contexts/OverlayInfoContext";
+import { OverlayContext } from "./models/OverlayContext/OverlayContext";
+import { OverlayConfig } from "./scenes/OverlayConfig/OverlayConfig";
+import { ServiceContext } from "./contexts/ServiceContext";
+import { WebsocketService } from "./services/websocketService";
+
+interface ProviderProps {
+  ctx: OverlayContext;
+  setCtx: React.Dispatch<React.SetStateAction<OverlayContext>>;
+}
+
+const OverlayConfigWithProvider = (props: ProviderProps) => {
+  const { ctx, setCtx } = props;
+
+  return (
+    <OverlayInfoContext.Provider
+      value={{ overlayInfo: ctx, setOverlayInfo: setCtx }}
+    >
+      <OverlayConfig />
+    </OverlayInfoContext.Provider>
+  );
+};
 
 const App = () => {
-  const [gameInfo, setGameInfo] = useState<GameContext>(DEFAULT_GAME_CONTEXT);
+  const [overlayInfo, setOverlayInfo] = useState(DEFAULT_OVERLAY_CONTEXT);
 
   useEffect(() => {
     WebsocketService.init(49322, false);
-    WebsocketService.subscribe("game", "update_state", (data: UpdateState) => {
-      const updatedPlayers: Player[] = Object.values(data.players).map(
-        (playerInfo: USPlayers) => {
-          return {
-            assists: playerInfo.assists,
-            boost: playerInfo.boost,
-            cartouches: playerInfo.cartouches,
-            demos: playerInfo.demos,
-            goals: playerInfo.goals,
-            name: playerInfo.name,
-            saves: playerInfo.saves,
-            score: playerInfo.score,
-            shots: playerInfo.shots,
-            spectatorShortcut: playerInfo.shortcut,
-            team: playerInfo.team,
-            touches: playerInfo.touches,
-          };
-        }
-      );
-
-      setGameInfo({
-        arena: data.game.arena,
-        isOT: data.game.isOT,
-        target: data.game.target,
-        timeRemaining: data.game.time_seconds,
-        winner: data.game.winner,
-        players: updatedPlayers,
-      });
-    });
   }, []);
 
   return (
-    <GameStoreContext.Provider value={gameInfo}>
-      <div>Overlay components here</div>
-    </GameStoreContext.Provider>
+    <BrowserRouter>
+      <ServiceContext.Provider value={WebsocketService}>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <OverlayConfigWithProvider
+                ctx={overlayInfo}
+                setCtx={setOverlayInfo}
+              />
+            }
+          />
+          <Route
+            path="/overlay"
+            element={<Overlay configContext={overlayInfo} />}
+          />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </ServiceContext.Provider>
+    </BrowserRouter>
   );
 };
 
