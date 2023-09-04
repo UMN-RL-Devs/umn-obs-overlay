@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { WebsocketService } from "./services/websocketService";
 import { UpdateState } from "./models/Game/UpdateStateEvent/UpdateState";
-import {
-  DEFAULT_GAME_CONTEXT,
-  GameStoreContext,
-} from "./contexts/GameStoreContext";
+import { DEFAULT_GAME_CONTEXT } from "./contexts/GameStoreContext";
 import { GameContext } from "./models/GameContext/GameContext";
 import { Player } from "./models/GameContext/Player";
 import { USPlayers } from "./models/Game/UpdateStateEvent/USPlayers";
@@ -49,7 +46,7 @@ const App = () => {
   }, []);
 
   return (
-    <GameStoreContext.Provider value={gameInfo}>
+    <>
       <TeamPlayerGroup
         players={GameService.getBlueTeam(gameInfo.players)}
         isLeft={true}
@@ -64,7 +61,7 @@ const App = () => {
         secondaryColor={GeneralConstants.ORANGE_TEAM_SECONDARY}
         currentTarget={gameInfo.target}
       />
-    </GameStoreContext.Provider>
+    </>
   );
 };
 

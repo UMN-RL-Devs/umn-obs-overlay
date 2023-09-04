@@ -8,21 +8,21 @@ export const PlayerBoostBarWrapper = styled.div<{
   $isLeft: boolean;
   $index: number;
 }>`
-  height: 36px;
-  width: ${Sizing.PlayerBoostBar.width};
+  height: ${Sizing.PlayerBoostBar.height}px;
+  width: ${Sizing.PlayerBoostBar.width}px;
   background: ${(props) =>
     props.$isSpectating ? "#FFFFFF" : props.$primaryColor};
   color: ${(props) => props.$secondaryColor};
-  font-size: ${Sizing.PlayerBoostBar.fontSize};
-  margin-bottom: ${Sizing.PlayerBoostBar.bottomPadding};
+  font-size: ${Sizing.PlayerBoostBar.fontSize}px;
+  margin-bottom: ${Sizing.PlayerBoostBar.bottomPadding}px;
 `;
 
 export const PlayerBoostBarDefaultBar = styled.div<{ $index: number }>`
-  height: ${Sizing.PlayerBoostBar.boostBarHeight};
-  width: ${Sizing.PlayerBoostBar.width};
-  background: rgba(0, 0, 0, 0.8);
+  height: ${Sizing.PlayerBoostBar.boostBarHeight}px;
+  width: ${Sizing.PlayerBoostBar.width}px;
+  background: rgba(0, 0, 0, 0.5);
   position: absolute;
-  top: ${(props) => props.$index * 52 + 24}px;
+  top: ${(props) => props.$index * 52.8 + 37}px;
 `;
 
 export const PlayerBoostBarSlidingBar = styled.div<{
@@ -30,11 +30,11 @@ export const PlayerBoostBarSlidingBar = styled.div<{
   $width: number;
   $index: number;
 }>`
-  height: ${Sizing.PlayerBoostBar.boostBarHeight};
+  height: ${Sizing.PlayerBoostBar.boostBarHeight}px;
   width: ${(props) => props.$width}px;
   background: ${(props) => props.$color};
   position: absolute;
-  top: ${(props) => props.$index * 52 + 24}px;
+  top: ${(props) => props.$index * 52.8 + 37}px;
   z-index: 9999;
 `;
 
@@ -47,7 +47,7 @@ export const PlayerBoostBarTextWrapper = styled.div`
 export const PlayerBoostBarText = styled.p<{ $isBoost: boolean }>`
   padding: 0;
   margin: 0;
-  font-size: ${Sizing.PlayerBoostBar.fontSize};
+  font-size: ${Sizing.PlayerBoostBar.fontSize}px;
   padding-left: ${(props) => (props.$isBoost ? "0px" : "8px")};
   padding-right: ${(props) => (props.$isBoost ? "8px" : "0px")};
   padding-top: 2px;

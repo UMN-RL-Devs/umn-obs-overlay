@@ -1,60 +1,60 @@
 {
     "PlayerBoostBar": {
-        "height": "36px",
-        "width": "340px",
-        "boostBarHeight": "12px",
-        "fontSize": "18px",
-        "topOffset": "20px",
-        "sideOffset": "20px",
-        "bottomPadding": "16px",
-        "totalHeight": 48
+        "height": 37,
+        "width": 396,
+        "boostBarHeight": 9,
+        "fontSize": 30,
+        "topOffset": 20,
+        "sideOffset": 20,
+        "bottomPadding": 16,
+        "totalHeight": 46
     },
     "PlayerBoostMeter": {
         "innerCircle": {
-            "logoHeight": "1px",
-            "logoWidth": "1px",
-            "fontSize": "1px",
-            "radius": "1px"
+            "logoHeight": 112,
+            "logoWidth": 200,
+            "fontSize": 70,
+            "radius": 120
         },
         "boostRing": {
-            "thickness": "1px"
+            "thickness": 10
         }
     },
     "PlayerStatCard": {
-        "height": "1px",
-        "width": "1px",
+        "height": 155,
+        "width": 158,
         "playerName": {
-            "fontSize": "1px"
+            "fontSize": 30
         },
         "secondaryBar": {
-            "fontSize": "1px",
-            "height": "1px"
+            "fontSize": 16,
+            "height": 25
         },
         "stats": {
-            "statNameSize": "1px",
-            "statValueSize": "1px",
-            "horizontalPadding": "1px"
+            "statNameSize": 21,
+            "statValueSize": 44,
+            "horizontalPadding": 1
         }
     },
     "Scorebug": {
-        "topWidth": "1px",
-        "bottomWidth": "1px",
-        "height": "1px",
+        "topWidth": 840,
+        "bottomWidth": 1,
+        "height": 76,
         "team": {
-            "height": "1px",
-            "width": "1px",
-            "offset": "1px",
-            "fontSize": "1px",
-            "logoHeight": "1px",
-            "logoWidth": "1px"
+            "height": 70,
+            "width": 228,
+            "offset": 1,
+            "fontSize": 68,
+            "logoHeight": 52,
+            "logoWidth": 92
         },
         "timer": {
-            "fontSize": "1px"
+            "fontSize": 54
         },
         "seriesIndicator": {
-            "height": "1px",
-            "width": "1px",
-            "offset": "1px"
+            "height": 15,
+            "width": 30,
+            "offset": 1
         }
     }
 }
