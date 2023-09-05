@@ -6,6 +6,7 @@ import {
   PlayerBoostBarTextWrapper,
   PlayerBoostBarWrapper,
 } from "./PlayerBoostBar.style";
+import Sizing from "../../constants/sizing.json";
 
 interface PlayerBoostBarProps {
   isLeft: boolean;
@@ -42,7 +43,10 @@ export const PlayerBoostBar = (props: PlayerBoostBarProps) => {
       </PlayerBoostBarTextWrapper>
       <PlayerBoostBarSlidingBar
         $color={secondaryColor}
-        $width={BoostService.getBoostBarWidth(boostAmount, 340)}
+        $width={BoostService.getBoostBarWidth(
+          boostAmount,
+          Sizing.PlayerBoostBar.width
+        )}
         $index={index}
       />
       <PlayerBoostBarDefaultBar $index={index} />

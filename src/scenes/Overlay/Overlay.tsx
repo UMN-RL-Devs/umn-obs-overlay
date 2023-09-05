@@ -8,6 +8,7 @@ import { TeamPlayerGroup } from "../../components/TeamPlayerGroup/TeamPlayerGrou
 import { GameService } from "../../services/gameService";
 import { OverlayContext } from "../../models/OverlayContext/OverlayContext";
 import { ServiceContext } from "../../contexts/ServiceContext";
+import { PlayerBoostCircle } from "../../components/PlayerBoostCircle/PlayerBoostCircle";
 
 interface OverlayProps {
   configContext: OverlayContext;
@@ -17,6 +18,10 @@ export const Overlay = (props: OverlayProps) => {
   const { configContext } = props;
   const [gameInfo, setGameInfo] = useState<GameContext>(DEFAULT_GAME_CONTEXT);
   const websocket = useContext(ServiceContext);
+  const spectatedPlayer = GameService.getPlayerFromTarget(
+    gameInfo.players,
+    gameInfo.target
+  );
 
   useEffect(() => {
     websocket.subscribe("game", "update_state", (data: UpdateState) => {
@@ -65,6 +70,22 @@ export const Overlay = (props: OverlayProps) => {
         secondaryColor={configContext.orange.secondary}
         currentTarget={gameInfo.target}
       />
+      {gameInfo.target !== "" && (
+        <PlayerBoostCircle
+          boost={spectatedPlayer!.boost}
+          primaryColor={
+            spectatedPlayer!.team === 0
+              ? configContext.blue.primary
+              : configContext.orange.primary
+          }
+          secondaryColor={
+            spectatedPlayer!.team === 0
+              ? configContext.blue.secondary
+              : configContext.orange.secondary
+          }
+          logoUrl="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/University_of_Minnesota_Logo.svg/2560px-University_of_Minnesota_Logo.svg.png"
+        />
+      )}
     </>
   );
 };

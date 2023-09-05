@@ -10,11 +10,13 @@
         "totalHeight": 46
     },
     "PlayerBoostMeter": {
+        "bottomOffset": 400,
+        "rightOffset": 40,
         "innerCircle": {
-            "logoHeight": 112,
-            "logoWidth": 200,
+            "logoHeight": 90,
+            "logoWidth": 140,
             "fontSize": 70,
-            "radius": 120
+            "radius": 130
         },
         "boostRing": {
             "thickness": 10
