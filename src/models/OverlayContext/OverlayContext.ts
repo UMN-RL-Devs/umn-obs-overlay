@@ -8,4 +8,5 @@ interface TeamContext {
 export interface OverlayContext {
   blue: TeamContext;
   orange: TeamContext;
+  seriesLength: number;
 }

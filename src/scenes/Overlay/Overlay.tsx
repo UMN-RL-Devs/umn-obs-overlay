@@ -10,6 +10,7 @@ import { OverlayContext } from "../../models/OverlayContext/OverlayContext";
 import { ServiceContext } from "../../contexts/ServiceContext";
 import { PlayerBoostCircle } from "../../components/PlayerBoostCircle/PlayerBoostCircle";
 import { Scorebug } from "../../components/Scorebug/Scorebug";
+import { MatchEnded } from "../../models/Game/MatchEndedEvent/MatchEnded";
 
 interface OverlayProps {
   configContext: OverlayContext;
@@ -18,6 +19,7 @@ interface OverlayProps {
 export const Overlay = (props: OverlayProps) => {
   const { configContext } = props;
   const [gameInfo, setGameInfo] = useState<GameContext>(DEFAULT_GAME_CONTEXT);
+  const [hasSetWinner, setHasSetWinner] = useState<boolean>(false);
   const websocket = useContext(ServiceContext);
   const spectatedPlayer = GameService.getPlayerFromTarget(
     gameInfo.players,
@@ -57,12 +59,40 @@ export const Overlay = (props: OverlayProps) => {
           orange: data.game.teams[1].score,
         },
         series: {
-          blue: 0,
-          orange: 0,
+          blue: gameInfo.series.blue,
+          orange: gameInfo.series.orange,
         },
       });
     });
+
+    websocket.subscribe("game", "match_ended", (data: MatchEnded) => {
+      if (!hasSetWinner) {
+        const blueSeriesScore = gameInfo.series.blue;
+        const orangeSeriesScore = gameInfo.series.orange;
+
+        setGameInfo({
+          ...gameInfo,
+          series: {
+            blue:
+              data.winner_team_num === 0
+                ? blueSeriesScore + 1
+                : blueSeriesScore,
+            orange:
+              data.winner_team_num === 1
+                ? orangeSeriesScore + 1
+                : orangeSeriesScore,
+          },
+        });
+
+        setHasSetWinner(true);
+      }
+    });
+
+    websocket.subscribe("game", "match_created", (data: string) => {
+      setHasSetWinner(false);
+    });
   });
+
   return (
     <>
       <TeamPlayerGroup
@@ -87,6 +117,11 @@ export const Overlay = (props: OverlayProps) => {
         orangeTeamScore={gameInfo.score.orange}
         blueTeamImage={configContext.blue.avatar}
         orangeTeamImage={configContext.orange.avatar}
+        blueTeamSecondary={configContext.blue.secondary}
+        orangeTeamSecondary={configContext.orange.secondary}
+        seriesLength={configContext.seriesLength}
+        blueTeamWins={gameInfo.series.blue}
+        orangeTeamWins={gameInfo.series.orange}
       />
       {gameInfo.target !== "" && (
         <PlayerBoostCircle

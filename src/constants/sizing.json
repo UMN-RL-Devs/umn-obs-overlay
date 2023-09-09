@@ -58,8 +58,8 @@
         },
         "seriesIndicator": {
             "height": 15,
-            "width": 30,
-            "offset": 1
+            "width": 15,
+            "offset": 24
         }
     }
 }

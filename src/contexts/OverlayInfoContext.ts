@@ -15,6 +15,7 @@ export const DEFAULT_OVERLAY_CONTEXT: OverlayContext = {
     primary: GeneralConstants.ORANGE_TEAM_PRIMARY,
     secondary: GeneralConstants.ORANGE_TEAM_SECONDARY,
   },
+  seriesLength: -1,
 };
 
 export const OverlayInfoContext = createContext({
