@@ -38,12 +38,14 @@ export const Scorebug = (props: ScorebugProps) => {
       <SBTeam
         isLeft={true}
         primary={blueTeamPrimary}
+        secondary={blueTeamSecondary}
         score={blueTeamScore}
         imageUrl={blueTeamImage}
       />
       <SBTeam
         isLeft={false}
         primary={orangeTeamPrimary}
+        secondary={orangeTeamSecondary}
         score={orangeTeamScore}
         imageUrl={orangeTeamImage}
       />

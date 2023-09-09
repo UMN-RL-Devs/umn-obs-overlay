@@ -1,8 +1,10 @@
 import {
   SBLeftTeamImage,
+  SBLeftTeamSecondary,
   SBLeftTeamText,
   SBLeftTeamTrapezoid,
   SBRightTeamImage,
+  SBRightTeamSecondary,
   SBRightTeamText,
   SBRightTeamTrapezoid,
 } from "./SBTeam.style";
@@ -10,17 +12,18 @@ import {
 interface SBTeamProps {
   isLeft: boolean;
   primary: string;
-  // secondary: string;
+  secondary: string;
   imageUrl: string;
   score: number;
 }
 
 export const SBTeam = (props: SBTeamProps) => {
-  const { isLeft, primary, imageUrl, score } = props;
+  const { isLeft, primary, secondary, imageUrl, score } = props;
   return (
     <>
       {isLeft && (
         <>
+          <SBLeftTeamSecondary $secondary={secondary} />
           <SBLeftTeamTrapezoid $primary={primary} />
           <SBLeftTeamText>{score}</SBLeftTeamText>
           <SBLeftTeamImage src={imageUrl} />
@@ -28,6 +31,7 @@ export const SBTeam = (props: SBTeamProps) => {
       )}
       {!isLeft && (
         <>
+          <SBRightTeamSecondary $secondary={secondary} />
           <SBRightTeamTrapezoid $primary={primary} />
           <SBRightTeamText>{score}</SBRightTeamText>
           <SBRightTeamImage src={imageUrl} />

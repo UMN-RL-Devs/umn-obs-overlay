@@ -15,6 +15,20 @@ export const SBLeftTeamTrapezoid = styled.div<{
   top: ${Sizing.PlayerBoostBar.topOffset}px;
 `;
 
+export const SBLeftTeamSecondary = styled.div<{
+  $secondary: string;
+}>`
+  border-top: ${Sizing.Scorebug.clock.bottomWidth}px solid
+    ${(props) => props.$secondary};
+  border-left: ${Sizing.Scorebug.height}px solid transparent;
+  border-right: ${Sizing.Scorebug.height}px solid transparent;
+  height: 0;
+  width: ${Sizing.Scorebug.clock.topWidth}px;
+  position: absolute;
+  left: 24.25%;
+  top: ${Sizing.PlayerBoostBar.topOffset}px;
+`;
+
 export const SBRightTeamTrapezoid = styled.div<{
   $primary: string;
 }>`
@@ -26,6 +40,20 @@ export const SBRightTeamTrapezoid = styled.div<{
   width: ${Sizing.Scorebug.clock.topWidth}px;
   position: absolute;
   left: 49.15%;
+  top: ${Sizing.PlayerBoostBar.topOffset}px;
+`;
+
+export const SBRightTeamSecondary = styled.div<{
+  $secondary: string;
+}>`
+  border-top: ${Sizing.Scorebug.clock.bottomWidth}px solid
+    ${(props) => props.$secondary};
+  border-left: ${Sizing.Scorebug.height}px solid transparent;
+  border-right: ${Sizing.Scorebug.height}px solid transparent;
+  height: 0;
+  width: ${Sizing.Scorebug.clock.topWidth}px;
+  position: absolute;
+  left: 49.9%;
   top: ${Sizing.PlayerBoostBar.topOffset}px;
 `;
 
