@@ -9,6 +9,7 @@ import { GameService } from "../../services/gameService";
 import { OverlayContext } from "../../models/OverlayContext/OverlayContext";
 import { ServiceContext } from "../../contexts/ServiceContext";
 import { PlayerBoostCircle } from "../../components/PlayerBoostCircle/PlayerBoostCircle";
+import { Scorebug } from "../../components/Scorebug/Scorebug";
 
 interface OverlayProps {
   configContext: OverlayContext;
@@ -51,6 +52,14 @@ export const Overlay = (props: OverlayProps) => {
         timeRemaining: data.game.time_seconds,
         winner: data.game.winner,
         players: updatedPlayers,
+        score: {
+          blue: data.game.teams[0].score,
+          orange: data.game.teams[1].score,
+        },
+        series: {
+          blue: 0,
+          orange: 0,
+        },
       });
     });
   });
@@ -70,6 +79,15 @@ export const Overlay = (props: OverlayProps) => {
         secondaryColor={configContext.orange.secondary}
         currentTarget={gameInfo.target}
       />
+      <Scorebug
+        clock={GameService.getClockFromSeconds(gameInfo.timeRemaining)}
+        blueTeamPrimary={configContext.blue.primary}
+        orangeTeamPrimary={configContext.orange.primary}
+        blueTeamScore={gameInfo.score.blue}
+        orangeTeamScore={gameInfo.score.orange}
+        blueTeamImage={configContext.blue.avatar}
+        orangeTeamImage={configContext.orange.avatar}
+      />
       {gameInfo.target !== "" && (
         <PlayerBoostCircle
           boost={spectatedPlayer!.boost}
@@ -83,7 +101,11 @@ export const Overlay = (props: OverlayProps) => {
               ? configContext.blue.secondary
               : configContext.orange.secondary
           }
-          logoUrl="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/University_of_Minnesota_Logo.svg/2560px-University_of_Minnesota_Logo.svg.png"
+          logoUrl={
+            spectatedPlayer!.team === 0
+              ? configContext.blue.avatar
+              : configContext.orange.avatar
+          }
         />
       )}
     </>

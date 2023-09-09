@@ -15,8 +15,17 @@ const getPlayerFromTarget = (
   return players.find((player) => target.includes(player.name));
 };
 
+const getClockFromSeconds = (seconds: number): string => {
+  const numMinutes = Math.floor(seconds / 60);
+  const numSeconds = seconds - numMinutes * 60;
+  const numSecondsString: string =
+    numSeconds > 9 ? numSeconds.toString() : `0${numSeconds}`;
+  return `${numMinutes}:${numSecondsString}`;
+};
+
 export const GameService = {
   getOrangeTeam,
   getBlueTeam,
   getPlayerFromTarget,
+  getClockFromSeconds,
 };

@@ -40,8 +40,8 @@
     },
     "Scorebug": {
         "topWidth": 840,
-        "bottomWidth": 1,
-        "height": 76,
+        "bottomWidth": 4,
+        "height": 70,
         "team": {
             "height": 70,
             "width": 228,
@@ -50,8 +50,11 @@
             "logoHeight": 52,
             "logoWidth": 92
         },
-        "timer": {
-            "fontSize": 54
+        "clock": {
+            "fontSize": 54,
+            "bottomWidth": 70,
+            "topWidth": 358,
+            "backgroundColor": "#333333"
         },
         "seriesIndicator": {
             "height": 15,
