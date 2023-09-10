@@ -8,6 +8,14 @@ export const DEFAULT_GAME_CONTEXT = {
   timeRemaining: 300,
   winner: "",
   players: [],
+  score: {
+    blue: 0,
+    orange: 0,
+  },
+  series: {
+    blue: 0,
+    orange: 0,
+  },
 };
 
 export const GameStoreContext =

@@ -74,13 +74,26 @@ export const OverlayConfig = () => {
         });
   };
 
+  const handleSeriesLengthChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const seriesLength = Number(event.target.value);
+    if (!isNaN(seriesLength) && seriesLength > -1) {
+      setOverlayInfo({
+        ...overlayInfo,
+        seriesLength: seriesLength,
+      });
+    }
+  };
+
   // True = Bad | False = Good
   const validateInputs = (): boolean => {
     return (
       overlayInfo.blue.abbreviation === "" ||
       overlayInfo.orange.abbreviation === "" ||
       overlayInfo.blue.avatar === "" ||
-      overlayInfo.orange.avatar === ""
+      overlayInfo.orange.avatar === "" ||
+      overlayInfo.seriesLength < 0
     );
   };
 
@@ -138,14 +151,13 @@ export const OverlayConfig = () => {
           />
           <br />
           <br />
-          <OverlayConfigSubmit
-            disabled={validateInputs()}
-            onClick={() => {
-              navigate("/overlay");
-            }}
-          >
-            Submit
-          </OverlayConfigSubmit>
+          <OverlayConfigLabel>Series Length:</OverlayConfigLabel>
+          <OverlayConfigTextInput
+            type="number"
+            id="series_length"
+            name="series_length"
+            onChange={handleSeriesLengthChange}
+          />
         </div>
         <div style={{ marginLeft: "16px" }}>
           <OverlayConfigSubheading>Orange Team</OverlayConfigSubheading>
@@ -197,6 +209,14 @@ export const OverlayConfig = () => {
           />
           <br />
           <br />
+          <OverlayConfigSubmit
+            disabled={validateInputs()}
+            onClick={() => {
+              navigate("/overlay");
+            }}
+          >
+            Submit
+          </OverlayConfigSubmit>
         </div>
       </OverlayConfigWrapper>
     </>
