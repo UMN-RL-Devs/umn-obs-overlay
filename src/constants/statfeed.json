@@ -1,0 +1,10 @@
+{
+    "SHOT_EVENT": "Shot",
+    "ASSIST_EVENT": "Assist",
+    "GOAL_EVENT": "Goal",
+    "SAVE_EVENT": "Save",
+    "EPIC_SAVE_EVENT": "Epic Save",
+    "WIN_EVENT": "Win",
+    "MVP_EVENT": "MVP",
+    "LONG_GOAL_EVENT": "LongGoal"
+}
