@@ -20,6 +20,7 @@ export const Overlay = (props: OverlayProps) => {
   const { configContext } = props;
   const [gameInfo, setGameInfo] = useState<GameContext>(DEFAULT_GAME_CONTEXT);
   const [hasSetWinner, setHasSetWinner] = useState<boolean>(false);
+  const [showingPodium, setShowingPodium] = useState<boolean>(false);
   const websocket = useContext(ServiceContext);
   const spectatedPlayer = GameService.getPlayerFromTarget(
     gameInfo.players,
@@ -50,6 +51,7 @@ export const Overlay = (props: OverlayProps) => {
       setGameInfo({
         arena: data.game.arena,
         isOT: data.game.isOT,
+        isReplay: data.game.isReplay,
         target: data.game.target,
         timeRemaining: data.game.time_seconds,
         winner: data.game.winner,
@@ -90,6 +92,11 @@ export const Overlay = (props: OverlayProps) => {
 
     websocket.subscribe("game", "match_created", (data: string) => {
       setHasSetWinner(false);
+      setShowingPodium(false);
+    });
+
+    websocket.subscribe("game", "podium_start", (data: string) => {
+      setShowingPodium(true);
     });
   });
 
@@ -110,7 +117,10 @@ export const Overlay = (props: OverlayProps) => {
         currentTarget={gameInfo.target}
       />
       <Scorebug
-        clock={GameService.getClockFromSeconds(gameInfo.timeRemaining)}
+        clock={GameService.getClockFromSeconds(
+          gameInfo.timeRemaining,
+          gameInfo.isOT
+        )}
         blueTeamPrimary={configContext.blue.primary}
         orangeTeamPrimary={configContext.orange.primary}
         blueTeamScore={gameInfo.score.blue}
@@ -123,7 +133,7 @@ export const Overlay = (props: OverlayProps) => {
         blueTeamWins={gameInfo.series.blue}
         orangeTeamWins={gameInfo.series.orange}
       />
-      {gameInfo.target !== "" && (
+      {!gameInfo.isReplay && gameInfo.target !== "" && (
         <PlayerBoostCircle
           boost={spectatedPlayer!.boost}
           primaryColor={
@@ -142,6 +152,10 @@ export const Overlay = (props: OverlayProps) => {
               : configContext.orange.avatar
           }
         />
+      )}
+      {gameInfo.isReplay && <>{/*INSERT REPLAY COMPONENT HERE*/}</>}
+      {showingPodium && hasSetWinner && (
+        <>{/*INSERT POSTGAME COMPONENT HERE*/}</>
       )}
     </>
   );

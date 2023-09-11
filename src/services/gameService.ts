@@ -15,12 +15,14 @@ const getPlayerFromTarget = (
   return players.find((player) => target.includes(player.name));
 };
 
-const getClockFromSeconds = (seconds: number): string => {
+const getClockFromSeconds = (seconds: number, isOT: boolean): string => {
   const numMinutes = Math.floor(seconds / 60);
   const numSeconds = seconds - numMinutes * 60;
   const numSecondsString: string =
     numSeconds > 9 ? numSeconds.toString() : `0${numSeconds}`;
-  return `${numMinutes}:${numSecondsString}`;
+  return isOT
+    ? `+${numMinutes}:${numSecondsString}`
+    : `${numMinutes}:${numSecondsString}`;
 };
 
 export const GameService = {

@@ -4,6 +4,7 @@ import { GameContext } from "../models/GameContext/GameContext";
 export const DEFAULT_GAME_CONTEXT = {
   arena: "",
   isOT: false,
+  isReplay: false,
   target: "",
   timeRemaining: 300,
   winner: "",
