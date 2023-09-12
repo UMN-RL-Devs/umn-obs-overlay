@@ -11,6 +11,11 @@ import { ServiceContext } from "../../contexts/ServiceContext";
 import { PlayerBoostCircle } from "../../components/PlayerBoostCircle/PlayerBoostCircle";
 import { Scorebug } from "../../components/Scorebug/Scorebug";
 import { MatchEnded } from "../../models/Game/MatchEndedEvent/MatchEnded";
+import { Statfeed } from "../../models/Game/StatfeedEvent/Statfeed";
+import { StoredGoal } from "../../models/Game/StatfeedEvent/StoredGoal";
+import StatfeedEvents from "../../constants/statfeed.json";
+import { GoalScored } from "../../models/Game/GoalScoredEvent/GoalScored";
+import { GoalReplay } from "../../components/GoalReplay/GoalReplay";
 
 interface OverlayProps {
   configContext: OverlayContext;
@@ -21,6 +26,7 @@ export const Overlay = (props: OverlayProps) => {
   const [gameInfo, setGameInfo] = useState<GameContext>(DEFAULT_GAME_CONTEXT);
   const [hasSetWinner, setHasSetWinner] = useState<boolean>(false);
   const [showingPodium, setShowingPodium] = useState<boolean>(false);
+  const [lastGoalScored, setLastGoalScored] = useState<StoredGoal | null>(null);
   const websocket = useContext(ServiceContext);
   const spectatedPlayer = GameService.getPlayerFromTarget(
     gameInfo.players,
@@ -93,67 +99,131 @@ export const Overlay = (props: OverlayProps) => {
     websocket.subscribe("game", "match_created", (data: string) => {
       setHasSetWinner(false);
       setShowingPodium(false);
+      setLastGoalScored(null);
+      setGameInfo({
+        ...gameInfo,
+        players: [],
+      });
     });
 
     websocket.subscribe("game", "podium_start", (data: string) => {
       setShowingPodium(true);
     });
+
+    websocket.subscribe("game", "statfeed_event", (data: Statfeed) => {
+      if (data.event_name === StatfeedEvents.GOAL_EVENT) {
+        setLastGoalScored({
+          scorer: data.main_target.name,
+          passer:
+            data.secondary_target.team_num === -1
+              ? undefined
+              : data.secondary_target.name,
+          speed: lastGoalScored !== null ? lastGoalScored.speed : -1,
+          team: data.main_target.team_num,
+        });
+      } else if (
+        data.event_name === StatfeedEvents.ASSIST_EVENT &&
+        lastGoalScored !== null
+      ) {
+        setLastGoalScored({
+          ...lastGoalScored,
+          passer: data.main_target.name,
+        });
+      } else if (data.event_name === StatfeedEvents.SAVE_EVENT) {
+      } else if (data.event_name === StatfeedEvents.SHOT_EVENT) {
+      } else if (data.event_name === StatfeedEvents.EPIC_SAVE_EVENT) {
+      } else if (data.event_name === StatfeedEvents.WIN_EVENT) {
+      } else if (data.event_name === StatfeedEvents.MVP_EVENT) {
+      } else if (data.event_name === StatfeedEvents.LONG_GOAL_EVENT) {
+      } else {
+        console.log("STATFEED EVENT: ", data);
+      }
+    });
+
+    websocket.subscribe("game", "goal_scored", (data: GoalScored) => {
+      if (lastGoalScored) {
+        setLastGoalScored({
+          ...lastGoalScored,
+          speed: data.goalspeed,
+        });
+      }
+    });
   });
 
   return (
     <>
-      <TeamPlayerGroup
-        players={GameService.getBlueTeam(gameInfo.players)}
-        isLeft={true}
-        primaryColor={configContext.blue.primary}
-        secondaryColor={configContext.blue.secondary}
-        currentTarget={gameInfo.target}
-      />
-      <TeamPlayerGroup
-        players={GameService.getOrangeTeam(gameInfo.players)}
-        isLeft={false}
-        primaryColor={configContext.orange.primary}
-        secondaryColor={configContext.orange.secondary}
-        currentTarget={gameInfo.target}
-      />
-      <Scorebug
-        clock={GameService.getClockFromSeconds(
-          gameInfo.timeRemaining,
-          gameInfo.isOT
-        )}
-        blueTeamPrimary={configContext.blue.primary}
-        orangeTeamPrimary={configContext.orange.primary}
-        blueTeamScore={gameInfo.score.blue}
-        orangeTeamScore={gameInfo.score.orange}
-        blueTeamImage={configContext.blue.avatar}
-        orangeTeamImage={configContext.orange.avatar}
-        blueTeamSecondary={configContext.blue.secondary}
-        orangeTeamSecondary={configContext.orange.secondary}
-        seriesLength={configContext.seriesLength}
-        blueTeamWins={gameInfo.series.blue}
-        orangeTeamWins={gameInfo.series.orange}
-      />
-      {!gameInfo.isReplay && gameInfo.target !== "" && (
-        <PlayerBoostCircle
-          boost={spectatedPlayer!.boost}
-          primaryColor={
-            spectatedPlayer!.team === 0
-              ? configContext.blue.primary
-              : configContext.orange.primary
-          }
-          secondaryColor={
-            spectatedPlayer!.team === 0
-              ? configContext.blue.secondary
-              : configContext.orange.secondary
-          }
-          logoUrl={
-            spectatedPlayer!.team === 0
-              ? configContext.blue.avatar
-              : configContext.orange.avatar
-          }
-        />
+      {!showingPodium && !hasSetWinner && (
+        <>
+          <TeamPlayerGroup
+            players={GameService.getBlueTeam(gameInfo.players)}
+            isLeft={true}
+            primaryColor={configContext.blue.primary}
+            secondaryColor={configContext.blue.secondary}
+            currentTarget={gameInfo.target}
+          />
+          <TeamPlayerGroup
+            players={GameService.getOrangeTeam(gameInfo.players)}
+            isLeft={false}
+            primaryColor={configContext.orange.primary}
+            secondaryColor={configContext.orange.secondary}
+            currentTarget={gameInfo.target}
+          />
+          <Scorebug
+            clock={GameService.getClockFromSeconds(
+              gameInfo.timeRemaining,
+              gameInfo.isOT
+            )}
+            blueTeamPrimary={configContext.blue.primary}
+            orangeTeamPrimary={configContext.orange.primary}
+            blueTeamScore={gameInfo.score.blue}
+            orangeTeamScore={gameInfo.score.orange}
+            blueTeamImage={configContext.blue.avatar}
+            orangeTeamImage={configContext.orange.avatar}
+            blueTeamSecondary={configContext.blue.secondary}
+            orangeTeamSecondary={configContext.orange.secondary}
+            seriesLength={configContext.seriesLength}
+            blueTeamWins={gameInfo.series.blue}
+            orangeTeamWins={gameInfo.series.orange}
+          />
+          {!gameInfo.isReplay && gameInfo.target !== "" && (
+            <PlayerBoostCircle
+              boost={spectatedPlayer!.boost}
+              primaryColor={
+                spectatedPlayer!.team === 0
+                  ? configContext.blue.primary
+                  : configContext.orange.primary
+              }
+              secondaryColor={
+                spectatedPlayer!.team === 0
+                  ? configContext.blue.secondary
+                  : configContext.orange.secondary
+              }
+              logoUrl={
+                spectatedPlayer!.team === 0
+                  ? configContext.blue.avatar
+                  : configContext.orange.avatar
+              }
+            />
+          )}
+          {gameInfo.isReplay && lastGoalScored && (
+            <GoalReplay
+              scorer={lastGoalScored.scorer}
+              passer={lastGoalScored.passer}
+              speed={Math.round(lastGoalScored.speed)}
+              teamPrimary={
+                lastGoalScored.team === 0
+                  ? configContext.blue.primary
+                  : configContext.orange.primary
+              }
+              teamSecondary={
+                lastGoalScored.team === 0
+                  ? configContext.blue.secondary
+                  : configContext.orange.secondary
+              }
+            />
+          )}
+        </>
       )}
-      {gameInfo.isReplay && <>{/*INSERT REPLAY COMPONENT HERE*/}</>}
       {showingPodium && hasSetWinner && (
         <>{/*INSERT POSTGAME COMPONENT HERE*/}</>
       )}

@@ -61,5 +61,17 @@
             "width": 15,
             "offset": 24
         }
+    },
+    "GoalReplay": {
+        "height": 120,
+        "scorer": {
+            "fontSize": 48
+        },
+        "passer": {
+            "fontSize": 36
+        },
+        "speed": {
+            "fontSize": 36
+        }
     }
 }
