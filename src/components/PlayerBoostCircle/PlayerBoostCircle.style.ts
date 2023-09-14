@@ -4,7 +4,7 @@ import Sizing from "../../constants/sizing.json";
 export const PlayerBoostCircleWrapper = styled.div`
   background-color: #0000;
   position: absolute;
-  bottom: 210px;
+  bottom: 50px;
   right: 25px;
   height: ${(Sizing.PlayerBoostMeter.boostRing.thickness +
     Sizing.PlayerBoostMeter.innerCircle.radius) *

@@ -64,8 +64,8 @@ export const PlayerBoostCircle = (props: PlayerBoostCircleProps) => {
           href={logoUrl}
           height={Sizing.PlayerBoostMeter.innerCircle.logoHeight}
           width={Sizing.PlayerBoostMeter.innerCircle.logoWidth}
-          x={Sizing.PlayerBoostMeter.innerCircle.radius / 2}
-          y={(Sizing.PlayerBoostMeter.innerCircle.radius + 28) / 2}
+          x={(Sizing.PlayerBoostMeter.innerCircle.radius - 25) / 2}
+          y={(Sizing.PlayerBoostMeter.innerCircle.radius + 36) / 2}
         />
         <PlayerBoostCircleText
           $fontSize={Sizing.PlayerBoostMeter.innerCircle.fontSize}
