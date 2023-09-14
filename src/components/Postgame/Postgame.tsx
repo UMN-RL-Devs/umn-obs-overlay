@@ -1,26 +1,54 @@
 import { Player } from "../../models/GameContext/Player";
-import { PGPlayerRow } from "./PGPlayerRow/PGPlayerRow";
-import { PGStatRow } from "./PGStatRow/PGStatRow";
+import { PGBlueCol } from "./PGBlueCol/PGBlueCol";
+import { PGHeader } from "./PGHeader/PGHeader";
+import { PGOrangeCol } from "./PGOrangeCol/PGOrangeCol";
+import { PGStatNameCol } from "./PGStatNameCol/PGStatNameCol";
 import { PostgameWrapper } from "./Postgame.style";
 
 interface PostgameProps {
   blueTeam: Player[];
   orangeTeam: Player[];
+  blueLogo: string;
+  blueGameScore: number;
+  blueSeriesScore: number;
+  blueSecondary: string;
+  orangeLogo: string;
+  orangeGameScore: number;
+  orangeSeriesScore: number;
+  orangeSecondary: string;
+  seriesLength: number;
 }
 
 export const Postgame = (props: PostgameProps) => {
-  const { blueTeam, orangeTeam } = props;
+  const {
+    blueTeam,
+    orangeTeam,
+    blueLogo,
+    blueGameScore,
+    blueSeriesScore,
+    blueSecondary,
+    orangeLogo,
+    orangeGameScore,
+    orangeSeriesScore,
+    orangeSecondary,
+    seriesLength,
+  } = props;
   return (
     <PostgameWrapper>
-      <PGPlayerRow
-        playerNames={blueTeam.map((player) => player.name)}
-        isLeft={true}
+      <PGHeader
+        blueLogo={blueLogo}
+        blueGameScore={blueGameScore}
+        blueSeriesScore={blueSeriesScore}
+        blueSecondary={blueSecondary}
+        orangeLogo={orangeLogo}
+        orangeGameScore={orangeGameScore}
+        orangeSeriesScore={orangeSeriesScore}
+        orangeSecondary={orangeSecondary}
+        seriesLength={seriesLength}
       />
-      <PGPlayerRow
-        playerNames={orangeTeam.map((player) => player.name)}
-        isLeft={false}
-      />
-      <PGStatRow blueTeam={blueTeam} orangeTeam={orangeTeam} />
+      <PGBlueCol players={blueTeam} />
+      <PGStatNameCol />
+      <PGOrangeCol players={orangeTeam} />
     </PostgameWrapper>
   );
 };

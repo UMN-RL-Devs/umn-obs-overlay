@@ -5,7 +5,7 @@ export const PostgameWrapper = styled.div`
   font-family: bahnschrift;
   color: white;
   text-align: center;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url(${RLMaroon});
   background-position: center;
   background-repeat: no-repeat;

@@ -9,6 +9,8 @@ export const SBSeriesShape = styled.div<{
   $index: number;
   $isWon: boolean;
   $color: string;
+  $leftOffset: number | undefined;
+  $topOffset: number | undefined;
 }>`
   position: absolute;
   top: 50px;
@@ -21,4 +23,20 @@ export const SBSeriesShape = styled.div<{
   background: ${(props) => (props.$isWon ? props.$color : "white")};
   transform: ${(props) => (props.$isLeft ? "skew(40deg)" : "skew(-40deg)")};
   z-index: 7;
+  ${(props) =>
+    props.$leftOffset !== undefined && props.$isLeft
+      ? `left: ${
+          props.$leftOffset -
+          props.$index * Sizing.Scorebug.seriesIndicator.offset
+        }px;`
+      : ""}
+  ${(props) =>
+    props.$leftOffset !== undefined && !props.$isLeft
+      ? `left: ${
+          props.$leftOffset +
+          props.$index * Sizing.Scorebug.seriesIndicator.offset
+        }px;`
+      : ""}
+  ${(props) =>
+    props.$topOffset !== undefined ? `top: ${props.$topOffset}px;` : ""}
 `;

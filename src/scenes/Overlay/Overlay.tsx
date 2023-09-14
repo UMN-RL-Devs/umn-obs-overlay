@@ -19,7 +19,6 @@ import { GoalReplay } from "../../components/GoalReplay/GoalReplay";
 import { Postgame } from "../../components/Postgame/Postgame";
 import { PlayerStatCard } from "../../components/PlayerStatCard/PlayerStatCard";
 
-
 interface OverlayProps {
   configContext: OverlayContext;
 }
@@ -256,6 +255,15 @@ export const Overlay = (props: OverlayProps) => {
         <Postgame
           blueTeam={GameService.getBlueTeam(gameInfo.players)}
           orangeTeam={GameService.getOrangeTeam(gameInfo.players)}
+          blueLogo={configContext.blue.avatar}
+          blueGameScore={gameInfo.score.blue}
+          blueSeriesScore={gameInfo.series.blue}
+          blueSecondary={configContext.blue.secondary}
+          orangeLogo={configContext.orange.avatar}
+          orangeGameScore={gameInfo.score.orange}
+          orangeSeriesScore={gameInfo.series.orange}
+          orangeSecondary={configContext.orange.secondary}
+          seriesLength={configContext.seriesLength}
         />
       )}
     </>

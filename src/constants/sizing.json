@@ -76,9 +76,9 @@
     },
     "Postgame": {
         "playerNames": {
-            "sideOffset": 216,
-            "topOffset": 400,
-            "fontSize": 24,
+            "sideOffset": 204,
+            "topOffset": 250,
+            "fontSize": 36,
             "marginRight": 24
         },
         "statNames": {
@@ -88,16 +88,16 @@
             "fontSize": 36
         },
         "abbreviatons": {
-            "fontSize": 40,
+            "fontSize": 64,
             "sideOffset": 400,
             "topOffset": 20
         },
         "series": {
-            "fontSize": 24
+            "fontSize": 36
         },
         "logo": {
-            "height": 52,
-            "width": 92
+            "height": 120,
+            "width": 220
         }
     }
 }
