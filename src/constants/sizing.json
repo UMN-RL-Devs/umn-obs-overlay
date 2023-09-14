@@ -13,10 +13,10 @@
         "bottomOffset": 400,
         "rightOffset": 40,
         "innerCircle": {
-            "logoHeight": 90,
-            "logoWidth": 140,
+            "logoHeight": 120,
+            "logoWidth": 190,
             "fontSize": 70,
-            "radius": 130
+            "radius": 150
         },
         "boostRing": {
             "thickness": 10
@@ -24,7 +24,7 @@
     },
     "PlayerStatCard": {
         "height": 155,
-        "width": 158,
+        "width": 460,
         "playerName": {
             "fontSize": 30
         },

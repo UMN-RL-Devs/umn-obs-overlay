@@ -17,6 +17,8 @@ import StatfeedEvents from "../../constants/statfeed.json";
 import { GoalScored } from "../../models/Game/GoalScoredEvent/GoalScored";
 import { GoalReplay } from "../../components/GoalReplay/GoalReplay";
 import { Postgame } from "../../components/Postgame/Postgame";
+import { PlayerStatCard } from "../../components/PlayerStatCard/PlayerStatCard";
+
 
 interface OverlayProps {
   configContext: OverlayContext;
@@ -187,24 +189,49 @@ export const Overlay = (props: OverlayProps) => {
             orangeTeamWins={gameInfo.series.orange}
           />
           {!gameInfo.isReplay && gameInfo.target !== "" && (
-            <PlayerBoostCircle
-              boost={spectatedPlayer!.boost}
-              primaryColor={
-                spectatedPlayer!.team === 0
-                  ? configContext.blue.primary
-                  : configContext.orange.primary
-              }
-              secondaryColor={
-                spectatedPlayer!.team === 0
-                  ? configContext.blue.secondary
-                  : configContext.orange.secondary
-              }
-              logoUrl={
-                spectatedPlayer!.team === 0
-                  ? configContext.blue.avatar
-                  : configContext.orange.avatar
-              }
-            />
+            <>
+              <PlayerBoostCircle
+                boost={spectatedPlayer!.boost}
+                primaryColor={
+                  spectatedPlayer!.team === 0
+                    ? configContext.blue.primary
+                    : configContext.orange.primary
+                }
+                secondaryColor={
+                  spectatedPlayer!.team === 0
+                    ? configContext.blue.secondary
+                    : configContext.orange.secondary
+                }
+                logoUrl={
+                  spectatedPlayer!.team === 0
+                    ? configContext.blue.avatar
+                    : configContext.orange.avatar
+                }
+              />
+              <PlayerStatCard
+                playerName={spectatedPlayer!.name}
+                isUMN={
+                  (spectatedPlayer!.team === 0 &&
+                    configContext.blue.abbreviation === "UMN") ||
+                  (spectatedPlayer!.team === 1 &&
+                    configContext.orange.abbreviation === "UMN")
+                }
+                goals={spectatedPlayer!.goals}
+                assists={spectatedPlayer!.assists}
+                saves={spectatedPlayer!.saves}
+                shots={spectatedPlayer!.shots}
+                primaryColor={
+                  spectatedPlayer!.team === 0
+                    ? configContext.blue.primary
+                    : configContext.orange.primary
+                }
+                secondaryColor={
+                  spectatedPlayer!.team === 0
+                    ? configContext.blue.secondary
+                    : configContext.orange.secondary
+                }
+              />
+            </>
           )}
           {gameInfo.isReplay && lastGoalScored && (
             <GoalReplay
