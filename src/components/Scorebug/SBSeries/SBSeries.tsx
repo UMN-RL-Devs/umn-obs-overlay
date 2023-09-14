@@ -5,12 +5,16 @@ interface SBSeriesProps {
   secondary: string;
   isLeft: boolean;
   wins: number;
+  leftOffset?: number;
+  topOffset?: number;
 }
 
 export const SBSeries = (props: SBSeriesProps) => {
-  const { series, secondary, isLeft, wins } = props;
+  const { series, secondary, isLeft, wins, leftOffset, topOffset } = props;
   let requiredWins: number;
-  if (series === 3) {
+  if (series === 1) {
+    requiredWins = 1;
+  } else if (series === 3) {
     requiredWins = 2;
   } else if (series === 5) {
     requiredWins = 3;
@@ -29,6 +33,8 @@ export const SBSeries = (props: SBSeriesProps) => {
             $index={index}
             $isWon={wins - 1 >= index}
             $color={secondary}
+            $leftOffset={leftOffset}
+            $topOffset={topOffset}
           />
         );
       })}

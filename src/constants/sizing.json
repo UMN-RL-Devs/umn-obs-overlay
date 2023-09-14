@@ -73,5 +73,31 @@
         "speed": {
             "fontSize": 36
         }
+    },
+    "Postgame": {
+        "playerNames": {
+            "sideOffset": 204,
+            "topOffset": 250,
+            "fontSize": 36,
+            "marginRight": 24
+        },
+        "statNames": {
+            "fontSize": 32
+        },
+        "statValues": {
+            "fontSize": 36
+        },
+        "abbreviatons": {
+            "fontSize": 64,
+            "sideOffset": 400,
+            "topOffset": 20
+        },
+        "series": {
+            "fontSize": 36
+        },
+        "logo": {
+            "height": 120,
+            "width": 220
+        }
     }
 }

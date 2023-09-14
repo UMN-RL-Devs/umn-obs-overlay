@@ -16,6 +16,7 @@ import { StoredGoal } from "../../models/Game/StatfeedEvent/StoredGoal";
 import StatfeedEvents from "../../constants/statfeed.json";
 import { GoalScored } from "../../models/Game/GoalScoredEvent/GoalScored";
 import { GoalReplay } from "../../components/GoalReplay/GoalReplay";
+import { Postgame } from "../../components/Postgame/Postgame";
 import { PlayerStatCard } from "../../components/PlayerStatCard/PlayerStatCard";
 
 interface OverlayProps {
@@ -251,7 +252,19 @@ export const Overlay = (props: OverlayProps) => {
         </>
       )}
       {showingPodium && hasSetWinner && (
-        <>{/*INSERT POSTGAME COMPONENT HERE*/}</>
+        <Postgame
+          blueTeam={GameService.getBlueTeam(gameInfo.players)}
+          orangeTeam={GameService.getOrangeTeam(gameInfo.players)}
+          blueLogo={configContext.blue.avatar}
+          blueGameScore={gameInfo.score.blue}
+          blueSeriesScore={gameInfo.series.blue}
+          blueSecondary={configContext.blue.secondary}
+          orangeLogo={configContext.orange.avatar}
+          orangeGameScore={gameInfo.score.orange}
+          orangeSeriesScore={gameInfo.series.orange}
+          orangeSecondary={configContext.orange.secondary}
+          seriesLength={configContext.seriesLength}
+        />
       )}
     </>
   );
