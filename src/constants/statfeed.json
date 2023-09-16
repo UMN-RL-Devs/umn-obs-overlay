@@ -3,8 +3,9 @@
     "ASSIST_EVENT": "Assist",
     "GOAL_EVENT": "Goal",
     "SAVE_EVENT": "Save",
-    "EPIC_SAVE_EVENT": "Epic Save",
+    "EPIC_SAVE_EVENT": "EpicSave",
     "WIN_EVENT": "Win",
     "MVP_EVENT": "MVP",
-    "LONG_GOAL_EVENT": "LongGoal"
+    "LONG_GOAL_EVENT": "LongGoal",
+    "DEMO_EVENT": "Demolish"
 }

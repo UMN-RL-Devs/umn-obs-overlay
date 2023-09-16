@@ -17,6 +17,7 @@ interface PostgameProps {
   orangeSeriesScore: number;
   orangeSecondary: string;
   seriesLength: number;
+  show: boolean;
 }
 
 export const Postgame = (props: PostgameProps) => {
@@ -32,23 +33,28 @@ export const Postgame = (props: PostgameProps) => {
     orangeSeriesScore,
     orangeSecondary,
     seriesLength,
+    show,
   } = props;
   return (
-    <PostgameWrapper>
-      <PGHeader
-        blueLogo={blueLogo}
-        blueGameScore={blueGameScore}
-        blueSeriesScore={blueSeriesScore}
-        blueSecondary={blueSecondary}
-        orangeLogo={orangeLogo}
-        orangeGameScore={orangeGameScore}
-        orangeSeriesScore={orangeSeriesScore}
-        orangeSecondary={orangeSecondary}
-        seriesLength={seriesLength}
-      />
-      <PGBlueCol players={blueTeam} />
-      <PGStatNameCol />
-      <PGOrangeCol players={orangeTeam} />
-    </PostgameWrapper>
+    <>
+      {show && (
+        <PostgameWrapper>
+          <PGHeader
+            blueLogo={blueLogo}
+            blueGameScore={blueGameScore}
+            blueSeriesScore={blueSeriesScore}
+            blueSecondary={blueSecondary}
+            orangeLogo={orangeLogo}
+            orangeGameScore={orangeGameScore}
+            orangeSeriesScore={orangeSeriesScore}
+            orangeSecondary={orangeSecondary}
+            seriesLength={seriesLength}
+          />
+          <PGBlueCol players={blueTeam} />
+          <PGStatNameCol />
+          <PGOrangeCol players={orangeTeam} />
+        </PostgameWrapper>
+      )}
+    </>
   );
 };

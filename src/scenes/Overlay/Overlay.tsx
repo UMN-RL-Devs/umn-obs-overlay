@@ -18,6 +18,7 @@ import { GoalScored } from "../../models/Game/GoalScoredEvent/GoalScored";
 import { GoalReplay } from "../../components/GoalReplay/GoalReplay";
 import { Postgame } from "../../components/Postgame/Postgame";
 import { PlayerStatCard } from "../../components/PlayerStatCard/PlayerStatCard";
+import { HCTransition } from "../../components/HCTransition/HCTransition";
 
 interface OverlayProps {
   configContext: OverlayContext;
@@ -34,6 +35,8 @@ export const Overlay = (props: OverlayProps) => {
     gameInfo.players,
     gameInfo.target
   );
+  const [showTransition, setShowTransition] = useState<boolean>(false);
+  const [showPostgame, setShowPostgame] = useState<boolean>(false);
 
   useEffect(() => {
     websocket.subscribe("game", "update_state", (data: UpdateState) => {
@@ -93,23 +96,26 @@ export const Overlay = (props: OverlayProps) => {
                 : orangeSeriesScore,
           },
         });
-
         setHasSetWinner(true);
       }
     });
 
     websocket.subscribe("game", "match_created", (data: string) => {
-      setHasSetWinner(false);
-      setShowingPodium(false);
-      setLastGoalScored(null);
-      setGameInfo({
-        ...gameInfo,
-        players: [],
-      });
+      setShowTransition(true);
+      setTimeout(() => {
+        setShowPostgame(false);
+      }, 1000);
     });
 
     websocket.subscribe("game", "podium_start", (data: string) => {
       setShowingPodium(true);
+      setShowPostgame(false);
+      setTimeout(() => {
+        setShowTransition(true);
+      }, 3500);
+      setTimeout(() => {
+        setShowPostgame(true);
+      }, 5500);
     });
 
     websocket.subscribe("game", "statfeed_event", (data: Statfeed) => {
@@ -123,20 +129,20 @@ export const Overlay = (props: OverlayProps) => {
           speed: lastGoalScored !== null ? lastGoalScored.speed : -1,
           team: data.main_target.team_num,
         });
-      } else if (
-        data.event_name === StatfeedEvents.ASSIST_EVENT &&
-        lastGoalScored !== null
-      ) {
-        setLastGoalScored({
-          ...lastGoalScored,
-          passer: data.main_target.name,
-        });
+      } else if (data.event_name === StatfeedEvents.ASSIST_EVENT) {
+        if (lastGoalScored !== null) {
+          setLastGoalScored({
+            ...lastGoalScored,
+            passer: data.main_target.name,
+          });
+        }
       } else if (data.event_name === StatfeedEvents.SAVE_EVENT) {
       } else if (data.event_name === StatfeedEvents.SHOT_EVENT) {
       } else if (data.event_name === StatfeedEvents.EPIC_SAVE_EVENT) {
       } else if (data.event_name === StatfeedEvents.WIN_EVENT) {
       } else if (data.event_name === StatfeedEvents.MVP_EVENT) {
       } else if (data.event_name === StatfeedEvents.LONG_GOAL_EVENT) {
+      } else if (data.event_name === StatfeedEvents.DEMO_EVENT) {
       } else {
         console.log("STATFEED EVENT: ", data);
       }
@@ -149,6 +155,18 @@ export const Overlay = (props: OverlayProps) => {
           speed: data.goalspeed,
         });
       }
+    });
+
+    websocket.subscribe("game", "pre_countdown_begin", (data: string) => {
+      setHasSetWinner(false);
+      setShowingPodium(false);
+      setLastGoalScored(null);
+      setShowPostgame(false);
+      setShowTransition(false);
+    });
+
+    websocket.subscribe("game", "match_destroyed", (data: string) => {
+      setShowTransition(false);
     });
   });
 
@@ -252,19 +270,23 @@ export const Overlay = (props: OverlayProps) => {
         </>
       )}
       {showingPodium && hasSetWinner && (
-        <Postgame
-          blueTeam={GameService.getBlueTeam(gameInfo.players)}
-          orangeTeam={GameService.getOrangeTeam(gameInfo.players)}
-          blueLogo={configContext.blue.avatar}
-          blueGameScore={gameInfo.score.blue}
-          blueSeriesScore={gameInfo.series.blue}
-          blueSecondary={configContext.blue.secondary}
-          orangeLogo={configContext.orange.avatar}
-          orangeGameScore={gameInfo.score.orange}
-          orangeSeriesScore={gameInfo.series.orange}
-          orangeSecondary={configContext.orange.secondary}
-          seriesLength={configContext.seriesLength}
-        />
+        <>
+          <HCTransition show={showTransition} />
+          <Postgame
+            blueTeam={GameService.getBlueTeam(gameInfo.players)}
+            orangeTeam={GameService.getOrangeTeam(gameInfo.players)}
+            blueLogo={configContext.blue.avatar}
+            blueGameScore={gameInfo.score.blue}
+            blueSeriesScore={gameInfo.series.blue}
+            blueSecondary={configContext.blue.secondary}
+            orangeLogo={configContext.orange.avatar}
+            orangeGameScore={gameInfo.score.orange}
+            orangeSeriesScore={gameInfo.series.orange}
+            orangeSecondary={configContext.orange.secondary}
+            seriesLength={configContext.seriesLength}
+            show={showPostgame}
+          />
+        </>
       )}
     </>
   );

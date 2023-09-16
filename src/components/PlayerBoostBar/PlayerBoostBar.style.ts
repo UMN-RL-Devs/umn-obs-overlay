@@ -9,12 +9,21 @@ export const PlayerBoostBarWrapper = styled.div<{
   $index: number;
 }>`
   height: ${Sizing.PlayerBoostBar.height}px;
-  width: ${Sizing.PlayerBoostBar.width}px;
-  background: ${(props) =>
-    props.$isSpectating ? "#FFFFFF" : props.$primaryColor};
+  width: ${(props) =>
+    props.$isSpectating
+      ? Sizing.PlayerBoostBar.width - 6
+      : Sizing.PlayerBoostBar.width}px;
+  background: ${(props) => props.$primaryColor};
   color: ${(props) => props.$secondaryColor};
   font-size: ${Sizing.PlayerBoostBar.fontSize}px;
   margin-bottom: ${Sizing.PlayerBoostBar.bottomPadding}px;
+  ${(props) =>
+    props.$isSpectating
+      ? `
+    font-weight: 800;
+    border-right: 6px solid white;  
+  `
+      : ""}
 `;
 
 export const PlayerBoostBarDefaultBar = styled.div<{ $index: number }>`

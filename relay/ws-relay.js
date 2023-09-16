@@ -49,7 +49,7 @@ setInterval(function () {
 
 function sendRelayMessage(senderConnectionId, message) {
   let json = JSON.parse(message);
-  log.wb(senderConnectionId + "> Sent " + json.event);
+  //log.wb(senderConnectionId + "> Sent " + json.event);
   let channelEvent = json["event"].split(":");
   if (channelEvent[0] === "wsRelay") {
     if (channelEvent[1] === "register") {
