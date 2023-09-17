@@ -14,8 +14,13 @@ export const SBClockTrapezoid = styled.div`
   z-index: 3;
 `;
 
-export const SBClockText = styled.p`
-  font-size: ${Sizing.Scorebug.clock.fontSize}px;
+export const SBClockText = styled.p<{
+  $isOT: boolean;
+}>`
+  font-size: ${(props) =>
+    props.$isOT
+      ? Sizing.Scorebug.clock.fontSize - 6
+      : Sizing.Scorebug.clock.fontSize}px;
   position: absolute;
   left: 47.25%;
   top: -28px;

@@ -9,7 +9,7 @@ export const SBClock = (props: SBClockProps) => {
   return (
     <>
       <SBClockTrapezoid />
-      <SBClockText>{clock}</SBClockText>
+      <SBClockText $isOT={clock.includes("+")}>{clock}</SBClockText>
     </>
   );
 };
